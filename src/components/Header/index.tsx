@@ -1,28 +1,26 @@
-import { FC, useState } from "react";
-import { Menu, Button } from "antd";
-import { RadarChartOutlined } from "@ant-design/icons";
-
-import styles from "./header.module.scss";
+import Link from "next/link";
+import type { NextPage } from "next";
 import { nav } from "./config";
-const Header: FC = () => {
+import styles from "./header.module.scss";
+const Header: NextPage = () => {
   return (
     <header className={styles.wrapper}>
       <section className={styles.logo}>
-        <span className={styles.box}>
-          <RadarChartOutlined />
-          <span
-            style={{ fontSize: "1.2rem", fontWeight: "bold", marginLeft: 5 }}
-          >
-            BLOG
-          </span>
-        </span>
+        <span className={styles.box}>BLOG</span>
       </section>
-      <section className={styles.link}>
-        <Menu mode="horizontal" items={nav} style={{ border: "none" }} />
+      <section className={styles.navbar}>
+        {nav &&
+          nav.map((item) => {
+            return (
+              <span key={item.path} className={styles.link}>
+                <Link legacyBehavior href={item.path}>
+                  <a>{item.label}</a>
+                </Link>
+              </span>
+            );
+          })}
       </section>
-      <section className={styles.profile}>
-        <Button type="primary">登录</Button>
-      </section>
+      <section className={styles.profile}>登录</section>
     </header>
   );
 };

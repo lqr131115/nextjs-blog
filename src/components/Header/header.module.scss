@@ -1,26 +1,29 @@
 .wrapper {
   display: flex;
   align-items: center;
-  text-align: center;
-  justify-content: space-between;
-
   .logo {
     flex: 1;
-    font-size: 1.5rem;
+
     .box {
+      font-size: 1.5rem;
+      font-weight: bold;
       &:hover {
         cursor: pointer;
       }
     }
   }
 
-  .link {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+  .navbar {
+    .link {
+      margin: 0 5px;
+
+      a {
+        font-size: 18px;
+        padding: 0 20px;
+      }
+    }
   }
 
   .profile {
-    flex: 1;
   }
 }
