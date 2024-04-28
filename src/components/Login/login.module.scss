@@ -1,0 +1,16 @@
+.title {
+  color: #1677ff;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.ways {
+  font-size: 1.5em;
+  span {
+    &:hover {
+      cursor: pointer;
+      color: #559cff;
+    }
+  }
+}
