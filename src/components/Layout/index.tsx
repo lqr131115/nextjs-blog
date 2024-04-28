@@ -1,9 +1,9 @@
-import { FC } from "react";
+import type { NextPage } from "next";
 import Header from "../Header";
 import Footer from "../Footer";
 import styles from "@/styles/main.module.scss";
 
-const Layout: FC = ({ children }: any) => {
+const Layout: NextPage<any> = ({ children }) => {
   return (
     <>
       <Header />

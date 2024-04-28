@@ -1,8 +1,13 @@
+import { useRouter } from "next/router";
 import Link from "next/link";
+import classNames from "classnames";
 import type { NextPage } from "next";
 import { nav } from "./config";
 import styles from "./header.module.scss";
+const activeCls = styles.active;
 const Header: NextPage = () => {
+  const router = useRouter();
+  const { pathname } = router;
   return (
     <header className={styles.wrapper}>
       <section className={styles.logo}>
@@ -11,10 +16,13 @@ const Header: NextPage = () => {
       <section className={styles.navbar}>
         {nav &&
           nav.map((item) => {
+            const aCls = classNames({
+              [activeCls]: pathname === item.path,
+            });
             return (
               <span key={item.path} className={styles.link}>
                 <Link legacyBehavior href={item.path}>
-                  <a>{item.label}</a>
+                  <a className={aCls}>{item.label}</a>
                 </Link>
               </span>
             );

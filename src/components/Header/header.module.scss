@@ -1,9 +1,10 @@
 .wrapper {
   display: flex;
   align-items: center;
+  height: 60px;
   .logo {
     flex: 1;
-
+    padding-left: 20px;
     .box {
       font-size: 1.5rem;
       font-weight: bold;
@@ -14,16 +15,22 @@
   }
 
   .navbar {
+    padding: 0 15px;
     .link {
-      margin: 0 5px;
-
+      margin: 0 10px;
+      font-size: 18px;
       a {
-        font-size: 18px;
-        padding: 0 20px;
+        color: #000;
+        text-decoration: none;
+      }
+
+      .active {
+        color: #1890ff;
       }
     }
   }
 
   .profile {
+    padding: 0 20px;
   }
 }
