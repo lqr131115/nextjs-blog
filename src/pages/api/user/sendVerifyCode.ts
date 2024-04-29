@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { cookies } from "next/headers";
 import { format } from "date-fns";
 import md5 from "md5";
 import { encode } from "js-base64";

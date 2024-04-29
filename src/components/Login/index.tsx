@@ -10,7 +10,6 @@ import {
   Typography,
   Flex,
   Statistic,
-  message,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
@@ -37,6 +36,8 @@ const Login: FC<PropsType> = (props) => {
     form
       .validateFields(["phone"])
       .then((values) => {
+        setDeadline();
+        setIsShowVerifyCode(true);
         // 发送验证码
         const { phone } = values;
         request
@@ -47,7 +48,7 @@ const Login: FC<PropsType> = (props) => {
           });
       })
       .catch((err) => {
-        message.error(err.errorFields[0].errors[0]);
+        console.log("getVerifyCode err", err);
       });
   };
   const handleLogin = () => {
