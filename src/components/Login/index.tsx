@@ -9,6 +9,7 @@ import {
   Space,
   Typography,
   Flex,
+  Statistic,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import styles from "./login.module.scss";
@@ -16,19 +17,27 @@ import styles from "./login.module.scss";
 type PropsType = {
   open: boolean;
   onClose: () => void;
+  deadline: number;
+  setDeadline: () => void;
 };
 const { Option } = Select;
 const { Text } = Typography;
+const { Countdown } = Statistic;
 const Login: FC<PropsType> = (props) => {
-  const { open, onClose } = props;
-  const [show, toggleShow] = useState(false);
+  const { open, onClose, deadline, setDeadline } = props;
+  const [isShowVerifyCode, setIsShowVerifyCode] = useState(false);
+  const [isShowLoginMethod, setIsShowLoginMethod] = useState(false);
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
+  const getVerifyCode = () => {
+    setDeadline();
+    setIsShowVerifyCode(true);
+  };
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }} defaultValue="86">
+      <Select style={{ width: 70 }}>
         <Option value="86">+86</Option>
         <Option value="87">+87</Option>
       </Select>
@@ -39,9 +48,10 @@ const Login: FC<PropsType> = (props) => {
     <Modal title="登录" open={open} onCancel={onClose} footer={null}>
       <Form
         form={form}
+        initialValues={{ agreement: true, prefix: "86" }}
         onFinish={onFinish}
         style={{ marginTop: 20 }}
-        validateTrigger="onFinish"
+        validateTrigger="onSubmit"
       >
         <Form.Item
           name="phone"
@@ -55,7 +65,6 @@ const Login: FC<PropsType> = (props) => {
         >
           <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
         </Form.Item>
-
         <Form.Item
           name="verification"
           rules={[
@@ -64,7 +73,22 @@ const Login: FC<PropsType> = (props) => {
         >
           <Space.Compact style={{ width: "100%" }}>
             <Input />
-            <Button type="primary">获取验证码</Button>
+            <Button
+              type="primary"
+              onClick={getVerifyCode}
+              disabled={isShowVerifyCode}
+            >
+              {isShowVerifyCode ? (
+                <Countdown
+                  valueStyle={{ fontSize: 12 }}
+                  value={deadline}
+                  format="剩余 s 秒"
+                  onFinish={() => setIsShowVerifyCode(false)}
+                />
+              ) : (
+                <span>获取验证码</span>
+              )}
+            </Button>
           </Space.Compact>
         </Form.Item>
         <Form.Item style={{ marginBottom: 5 }}>
@@ -77,13 +101,13 @@ const Login: FC<PropsType> = (props) => {
             className={styles.title}
             onClick={(e) => {
               e.stopPropagation();
-              toggleShow(!show);
+              setIsShowLoginMethod(!isShowLoginMethod);
             }}
           >
             其他登录方式
           </Text>
         </Form.Item>
-        {show && (
+        {isShowLoginMethod && (
           <Form.Item style={{ marginBottom: 0 }}>
             <Flex justify="center" className={styles.ways}>
               <GithubOutlined />

@@ -12,10 +12,10 @@ const Header: NextPage = () => {
   const router = useRouter();
   const { pathname } = router;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deadline, setDeadline] = useState(0);
   const goToLogin = () => {
     setIsModalOpen(true);
   };
-
   const handleClose = () => {
     setIsModalOpen(false);
   };
@@ -49,7 +49,12 @@ const Header: NextPage = () => {
           </Space>
         </section>
       </header>
-      <Login open={isModalOpen} onClose={handleClose} />
+      <Login
+        open={isModalOpen}
+        onClose={handleClose}
+        deadline={deadline}
+        setDeadline={() => setDeadline(Date.now() + 1000 * 60)}
+      />
     </>
   );
 };
