@@ -10,6 +10,7 @@ import {
   Typography,
   Flex,
   Statistic,
+  message,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
@@ -36,16 +37,18 @@ const Login: FC<PropsType> = (props) => {
     form
       .validateFields(["phone"])
       .then((values) => {
-        setDeadline();
-        setIsShowVerifyCode(true);
         // 发送验证码
         const { phone } = values;
-        request.post("/api/user/sendVerifyCode", { phone }).then((res) => {
-          console.log("getVerifyCode res", res);
-        });
+        request
+          .post("/api/user/sendVerifyCode", { to: phone, templateId: "1" })
+          .then((res) => {
+            setIsShowVerifyCode(true);
+            setDeadline();
+            console.log("getVerifyCode res", res);
+          });
       })
       .catch((err) => {
-        console.log("getVerifyCode err", err);
+        message.error(err.errorFields[0].errors[0]);
       });
   };
   const prefixSelector = (
