@@ -12,6 +12,7 @@ import {
   Statistic,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
+import request from "@/service/fetch";
 import styles from "./login.module.scss";
 
 type PropsType = {
@@ -39,7 +40,9 @@ const Login: FC<PropsType> = (props) => {
         setIsShowVerifyCode(true);
         // 发送验证码
         const { phone } = values;
-        alert(`验证码已发送至${phone}`);
+        request.post("/api/user/sendVerifyCode", { phone }).then((res) => {
+          console.log("getVerifyCode res", res);
+        });
       })
       .catch((err) => {
         console.log("getVerifyCode err", err);
