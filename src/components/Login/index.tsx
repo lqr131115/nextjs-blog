@@ -32,8 +32,18 @@ const Login: FC<PropsType> = (props) => {
     console.log("Received values of form: ", values);
   };
   const getVerifyCode = () => {
-    setDeadline();
-    setIsShowVerifyCode(true);
+    form
+      .validateFields(["phone"])
+      .then((values) => {
+        setDeadline();
+        setIsShowVerifyCode(true);
+        // 发送验证码
+        const { phone } = values;
+        alert(`验证码已发送至${phone}`);
+      })
+      .catch((err) => {
+        console.log("getVerifyCode err", err);
+      });
   };
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -51,7 +61,7 @@ const Login: FC<PropsType> = (props) => {
         initialValues={{ agreement: true, prefix: "86" }}
         onFinish={onFinish}
         style={{ marginTop: 20 }}
-        validateTrigger="onSubmit"
+        validateTrigger={["onSubmit"]}
       >
         <Form.Item
           name="phone"

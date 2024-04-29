@@ -53,7 +53,7 @@ const Header: NextPage = () => {
         open={isModalOpen}
         onClose={handleClose}
         deadline={deadline}
-        setDeadline={() => setDeadline(Date.now() + 1000 * 60)}
+        setDeadline={() => setDeadline(Date.now() + 1000 * 3)}
       />
     </>
   );
