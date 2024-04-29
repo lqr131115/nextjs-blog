@@ -41,14 +41,27 @@ const Login: FC<PropsType> = (props) => {
         const { phone } = values;
         request
           .post("/api/user/sendVerifyCode", { to: phone, templateId: "1" })
-          .then((res) => {
+          .then(() => {
             setIsShowVerifyCode(true);
             setDeadline();
-            console.log("getVerifyCode res", res);
           });
       })
       .catch((err) => {
         message.error(err.errorFields[0].errors[0]);
+      });
+  };
+  const handleLogin = () => {
+    const { phone, verification } = form.getFieldsValue();
+    request
+      .post("/api/user/login", { phone, verification })
+      .then((res) => {
+        console.log("login res", res);
+      })
+      .catch((err) => {
+        console.log("login error", err);
+      })
+      .finally(() => {
+        onClose && onClose();
       });
   };
   const prefixSelector = (
@@ -108,7 +121,7 @@ const Login: FC<PropsType> = (props) => {
           </Space.Compact>
         </Form.Item>
         <Form.Item style={{ marginBottom: 5 }}>
-          <Button block type="primary" htmlType="submit">
+          <Button block type="primary" htmlType="submit" onClick={handleLogin}>
             Log in
           </Button>
         </Form.Item>

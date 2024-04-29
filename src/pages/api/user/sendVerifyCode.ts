@@ -42,9 +42,7 @@ export default async function handler(
   if (statusCode === VALIDATE_STATUS_CODE) {
     session.verifyCode = code;
     await session.save();
-    res
-      .status(200)
-      .json({ code: statusCode, msg: statusMsg, data: templateSMS });
+    res.status(200).json({ code: 0, msg: statusMsg, data: templateSMS });
   } else {
     res.status(200).json({ code: statusCode, msg: statusMsg });
   }
