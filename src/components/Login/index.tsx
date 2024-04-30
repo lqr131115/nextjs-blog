@@ -10,6 +10,7 @@ import {
   Typography,
   Flex,
   Statistic,
+  message,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
@@ -48,21 +49,31 @@ const Login: FC<PropsType> = (props) => {
           });
       })
       .catch((err) => {
-        console.log("getVerifyCode err", err);
+        message.error(err.errorFields[0].errors[0]);
       });
   };
   const handleLogin = () => {
     const { phone, verification } = form.getFieldsValue();
-    request
-      .post("/api/user/login", { phone, verification })
-      .then((res) => {
-        console.log("login res", res);
+    form
+      .validateFields(["phone", "verification"])
+      .then(() => {
+        request
+          .post("/api/user/login", { phone, verification })
+          .then((res: any) => {
+            const { code, msg } = res;
+            if (code === 0) {
+              onClose && onClose();
+              message.success("登录成功");
+              return;
+            }
+            message.error(msg);
+          })
+          .catch((err) => {
+            message.error("登录失败，请重试");
+          });
       })
       .catch((err) => {
-        console.log("login error", err);
-      })
-      .finally(() => {
-        onClose && onClose();
+        console.log("handleLogin validateFields error", err);
       });
   };
   const prefixSelector = (
@@ -78,7 +89,7 @@ const Login: FC<PropsType> = (props) => {
     <Modal title="登录" open={open} onCancel={onClose} footer={null}>
       <Form
         form={form}
-        initialValues={{ agreement: true, prefix: "86" }}
+        initialValues={{ phone: "18656225724", agreement: true, prefix: "86" }}
         onFinish={onFinish}
         style={{ marginTop: 20 }}
         validateTrigger={["onSubmit"]}

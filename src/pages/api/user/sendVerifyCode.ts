@@ -4,7 +4,7 @@ import md5 from "md5";
 import { encode } from "js-base64";
 import { getIronSession } from "iron-session";
 import request from "@/service/fetch";
-import { ironSessionOptions } from "@/config";
+import { ironSessionOptions } from "@/config/index";
 import { ISession } from "..";
 
 const OPEN_ACCOUNT_SID = "2c94811c8cd4da0a018f286e7e2e7687";

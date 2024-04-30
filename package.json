@@ -17,10 +17,13 @@
     "iron-session": "^8.0.1",
     "js-base64": "^3.7.7",
     "md5": "^2.3.0",
+    "mysql2": "^3.9.7",
     "next": "14.2.2",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.75.0"
+    "reflect-metadata": "^0.2.2",
+    "sass": "^1.75.0",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@types/md5": "^2.3.5",
