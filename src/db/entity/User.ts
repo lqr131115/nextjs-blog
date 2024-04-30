@@ -1,7 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Relation,
+  BaseEntity,
+} from "typeorm";
+import { UserAuth } from "./UserAuth";
 @Entity({ name: "users" })
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -14,9 +21,9 @@ export class User {
   @Column()
   job!: string;
 
-  @Column("text")
+  @Column()
   introduce!: string;
 
-  // @OneToMany(() => UserAuth, (auth: UserAuth) => auth.user) // note: we will create user property in the UserAuth class below
-  // auths!: UserAuth[];
+  @OneToMany(() => UserAuth, (auth) => auth.user)
+  auths!: Relation<UserAuth[]>;
 }

@@ -25,10 +25,12 @@ type PropsType = {
 const { Option } = Select;
 const { Text } = Typography;
 const { Countdown } = Statistic;
+type IdentifyType = "phone" | "github";
 const Login: FC<PropsType> = (props) => {
   const { open, onClose, deadline, setDeadline } = props;
   const [isShowVerifyCode, setIsShowVerifyCode] = useState(false);
   const [isShowLoginMethod, setIsShowLoginMethod] = useState(false);
+  const [identifyType, setIdentifyType] = useState<IdentifyType>("phone");
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
@@ -42,7 +44,10 @@ const Login: FC<PropsType> = (props) => {
         // 发送验证码
         const { phone } = values;
         request
-          .post("/api/user/sendVerifyCode", { to: phone, templateId: "1" })
+          .post("/api/user/sendVerifyCode", {
+            to: phone,
+            templateId: "1",
+          })
           .then(() => {
             setIsShowVerifyCode(true);
             setDeadline();
@@ -53,12 +58,17 @@ const Login: FC<PropsType> = (props) => {
       });
   };
   const handleLogin = () => {
-    const { phone, verification } = form.getFieldsValue();
+    const { phone, verification, agreement } = form.getFieldsValue();
     form
-      .validateFields(["phone", "verification"])
+      .validateFields(["phone", "verification", "agreement"])
       .then(() => {
         request
-          .post("/api/user/login", { phone, verification })
+          .post("/api/user/login", {
+            phone,
+            verification,
+            identifyType,
+            agreement,
+          })
           .then((res: any) => {
             const { code, msg } = res;
             if (code === 0) {
@@ -89,7 +99,7 @@ const Login: FC<PropsType> = (props) => {
     <Modal title="登录" open={open} onCancel={onClose} footer={null}>
       <Form
         form={form}
-        initialValues={{ phone: "18656225724", agreement: true, prefix: "86" }}
+        initialValues={{ phone: "18656225724", prefix: "86" }}
         onFinish={onFinish}
         style={{ marginTop: 20 }}
         validateTrigger={["onSubmit"]}
@@ -151,7 +161,7 @@ const Login: FC<PropsType> = (props) => {
         {isShowLoginMethod && (
           <Form.Item style={{ marginBottom: 0 }}>
             <Flex justify="center" className={styles.ways}>
-              <GithubOutlined />
+              <GithubOutlined onClick={() => setIdentifyType("github")} />
             </Flex>
           </Form.Item>
         )}

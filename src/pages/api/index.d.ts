@@ -1,3 +1,3 @@
 import { IronSession } from "iron-session";
 
-export type ISession = IronSession & Record<string, any>;
+export type ISession = IronSession & { verifyCode: string };

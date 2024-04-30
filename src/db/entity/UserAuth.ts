@@ -4,20 +4,18 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  RelationOptions,
+  Relation,
+  BaseEntity,
 } from "typeorm";
 import { User } from "./User";
 
 @Entity({ name: "user_auths" })
-export class UserAuth {
+export class UserAuth extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  user_id!: number;
-
-  @Column()
-  number!: string;
+  identify_type!: string;
 
   @Column()
   identifier!: string;
@@ -25,9 +23,9 @@ export class UserAuth {
   @Column()
   credential!: string;
 
-  @ManyToOne(() => User, {
+  @ManyToOne(() => User, (user) => user.auths, {
     cascade: true,
   })
-  @JoinColumn({ name: "user_id" })
-  user!: User;
+  @JoinColumn({ name: "user_id" }) // 自定义关联列名, 默认是 userID;  实体中不需要定义 user_id 字段
+  user!: Relation<User>;
 }

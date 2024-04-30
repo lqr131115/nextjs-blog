@@ -18,9 +18,9 @@ export const AppDataSource = new DataSource({
 // and "synchronize" database schema, call "initialize()" method of a newly created database
 // once in your application bootstrap
 
-AppDataSource.initialize()
-  .then(() => {
-    // here you can start to work with your database
-    console.log("initialize database success!");
-  })
-  .catch((error) => console.log("initialize database failed!", error));
+// AppDataSource.initialize()
+//   .then(() => {
+//     // here you can start to work with your database
+//     console.log("initialize database success!");
+//   })
+//   .catch((error) => console.log("initialize database failed!", error));
