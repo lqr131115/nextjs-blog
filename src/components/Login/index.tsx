@@ -14,8 +14,8 @@ import {
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
+import { useStore } from "@/store";
 import styles from "./login.module.scss";
-
 type PropsType = {
   open: boolean;
   onClose: () => void;
@@ -32,6 +32,7 @@ const Login: FC<PropsType> = (props) => {
   const [isShowLoginMethod, setIsShowLoginMethod] = useState(false);
   const [identifyType, setIdentifyType] = useState<IdentifyType>("phone");
   const [form] = Form.useForm();
+  const store = useStore();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -70,8 +71,9 @@ const Login: FC<PropsType> = (props) => {
             agreement,
           })
           .then((res: any) => {
-            const { code, msg } = res;
+            const { code, msg, data } = res;
             if (code === 0) {
+              store.user.setUserInfo(data);
               onClose && onClose();
               message.success("登录成功");
               return;

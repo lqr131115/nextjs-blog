@@ -12,7 +12,7 @@ export default async function handler(
 ) {
   try {
     const { phone, verification, identifyType = "phone", agreement } = req.body;
-    // 服务都安校验
+    // 服务端校验
     if (!phone) {
       res.status(200).json({ code: -1, msg: "请输入账号" });
       return;
@@ -47,6 +47,9 @@ export default async function handler(
       // console.log("exist", exist);
       if (exist) {
         const { user } = exist;
+        session.user = user;
+        await session.save();
+        // TODO: 脱敏
         res.status(200).json({ code: 0, msg: "register success", data: user });
       } else {
         // 自动注册
@@ -64,6 +67,8 @@ export default async function handler(
 
         const auth = await userAuthRep.save(userAuth); // 作了级联 User也会自动创建
         const { user: u } = auth;
+        session.user = u;
+        await session.save();
         res.status(200).json({ code: 0, msg: "register success", data: u });
       }
     }
