@@ -32,5 +32,11 @@
 
   .action {
     padding: 0 20px;
+
+    .avatar {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
