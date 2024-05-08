@@ -15,7 +15,7 @@ const Header: NextPage = () => {
   const { pathname } = router;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deadline, setDeadline] = useState(0);
-  const store = useStore();
+  const { user: userStore } = useStore();
   const goToLogin = () => {
     setIsModalOpen(true);
   };
@@ -46,7 +46,7 @@ const Header: NextPage = () => {
         <section className={styles.action}>
           <Space>
             <Button>写文章</Button>
-            {store.user.userInfo.id ? (
+            {userStore.userInfo.userId ? (
               <div className={styles.avatar}>
                 <Popover
                   content={<Button type="link">退出登录</Button>}
@@ -56,7 +56,7 @@ const Header: NextPage = () => {
                     width={40}
                     height={40}
                     alt="avatar"
-                    src={store.user.userInfo.avatar}
+                    src={userStore.userInfo.avatar}
                   />
                 </Popover>
               </div>

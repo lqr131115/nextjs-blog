@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getIronSession } from "iron-session";
 import { nanoid } from "nanoid";
+import { Cookie } from "next-cookie";
 import { User, UserAuth } from "@/db/entity";
 import { AppDataSource } from "@/db";
 import { ironSessionOptions } from "@/config";
+import { setCookies } from "@/utils";
 import { ISession } from "..";
 
 export default async function handler(
@@ -30,11 +32,12 @@ export default async function handler(
       res,
       ironSessionOptions
     );
+    const cookies = Cookie.fromApiRoute(req, res);
     const verifyCode = session.verifyCode.toString();
     console.log("session.verifyCode", verifyCode);
-    const userRep = AppDataSource.isInitialized
-      ? AppDataSource.getRepository(User)
-      : (await AppDataSource.initialize()).getRepository(User);
+    // const userRep = AppDataSource.isInitialized
+    //   ? AppDataSource.getRepository(User)
+    //   : (await AppDataSource.initialize()).getRepository(User);
     const userAuthRep = AppDataSource.isInitialized
       ? AppDataSource.getRepository(UserAuth)
       : (await AppDataSource.initialize()).getRepository(UserAuth);
@@ -47,8 +50,12 @@ export default async function handler(
       // console.log("exist", exist);
       if (exist) {
         const { user } = exist;
+        // 设置session
         session.user = user;
         await session.save();
+        // 设置cookie
+        const { id, avatar, nickname } = user;
+        setCookies(cookies, { userId: id, avatar, nickname });
         // TODO: 脱敏
         res.status(200).json({ code: 0, msg: "register success", data: user });
       } else {
@@ -67,8 +74,13 @@ export default async function handler(
 
         const auth = await userAuthRep.save(userAuth); // 作了级联 User也会自动创建
         const { user: u } = auth;
+        // 设置session
         session.user = u;
         await session.save();
+        // 设置cookie
+        const { id, avatar, nickname } = u;
+        setCookies(cookies, { userId: id, avatar, nickname });
+
         res.status(200).json({ code: 0, msg: "register success", data: u });
       }
     }
