@@ -38,7 +38,6 @@ export default async function handler(
     }
     const cookies = Cookie.fromApiRoute(req, res);
     const verifyCode = session.verifyCode.toString();
-    console.log("************session.verifyCode************", verifyCode);
     // const userRep = AppDataSource.isInitialized
     //   ? AppDataSource.getRepository(User)
     //   : (await AppDataSource.initialize()).getRepository(User);

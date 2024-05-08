@@ -12,6 +12,7 @@ import {
   Statistic,
   message,
 } from "antd";
+import { observer } from "mobx-react-lite";
 import { GithubOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
 import { useStore } from "@/store";
@@ -75,7 +76,6 @@ const Login: FC<PropsType> = (props) => {
             if (code === 0) {
               store.user.setUserInfo(data);
               onClose && onClose();
-              // location.reload();
               message.success("登录成功");
               return;
             }
@@ -191,4 +191,4 @@ const Login: FC<PropsType> = (props) => {
   );
 };
 
-export default Login;
+export default observer(Login);

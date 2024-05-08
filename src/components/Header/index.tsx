@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Space, Popover } from "antd";
 import { PoweroffOutlined, HomeOutlined } from "@ant-design/icons";
+import { observer } from "mobx-react-lite";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -36,7 +37,6 @@ const Header: NextPage = () => {
       .post("/api/user/logout")
       .then(() => {
         setIsPopoverOpen(false);
-        location.reload();
       })
       .catch((err) => {
         console.log("logout", err);
@@ -115,4 +115,4 @@ const Header: NextPage = () => {
   );
 };
 
-export default Header;
+export default observer(Header);

@@ -4,7 +4,7 @@ import createStore from "@/store/module";
 
 // If observer is used in server side rendering context; make sure to call enableStaticRendering(true),
 // so that observer won't subscribe to any observables used, and no GC problems are introduced.
-enableStaticRendering(true);
+enableStaticRendering(typeof window !== "undefined");
 
 interface IStoreProps {
   initialValue?: Record<any, any>;
