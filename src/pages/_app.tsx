@@ -19,12 +19,12 @@ function App({ initialValue, Component, pageProps }: IAppProps) {
 
 App.getInitialProps = async ({ ctx }: any) => {
   const cookies = ctx.req?.cookies || {};
-  const { userId, avatar, nickname } = cookies;
+  const { id, avatar, nickname } = cookies;
   return {
     initialValue: {
-      // user module
+      // user store module
       user: {
-        userInfo: { userId, avatar, nickname },
+        userInfo: { id, avatar, nickname },
       },
     },
   };

@@ -58,7 +58,7 @@ export default async function handler(
         await session.save();
         // 设置cookie
         const { id, avatar, nickname } = user;
-        setCookies(cookies, { userId: id, avatar, nickname });
+        setCookies(cookies, { id, avatar, nickname });
         // TODO: 脱敏
         res.status(200).json({ code: 0, msg: "register success", data: user });
       } else {
@@ -82,7 +82,7 @@ export default async function handler(
         await session.save();
         // 设置cookie
         const { id, avatar, nickname } = u;
-        setCookies(cookies, { userId: id, avatar, nickname });
+        setCookies(cookies, { id, avatar, nickname });
 
         res.status(200).json({ code: 0, msg: "register success", data: u });
       }

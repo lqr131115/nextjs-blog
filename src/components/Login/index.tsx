@@ -33,7 +33,7 @@ const Login: FC<PropsType> = (props) => {
   const [isShowLoginMethod, setIsShowLoginMethod] = useState(false);
   const [identifyType, setIdentifyType] = useState<IdentifyType>("phone");
   const [form] = Form.useForm();
-  const store = useStore();
+  const { user: userStore } = useStore();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -74,7 +74,7 @@ const Login: FC<PropsType> = (props) => {
           .then((res: any) => {
             const { code, msg, data } = res;
             if (code === 0) {
-              store.user.setUserInfo(data);
+              userStore.setUserInfo(data);
               onClose && onClose();
               message.success("登录成功");
               return;

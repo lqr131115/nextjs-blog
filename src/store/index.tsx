@@ -14,7 +14,7 @@ interface IStoreProps {
 const StoreContext = createContext<any>({});
 
 export const StoreProvider = ({ initialValue, children }: IStoreProps) => {
-  const state = useLocalObservable(createStore(initialValue ?? {}));
+  const state = useLocalObservable(createStore(initialValue));
   return (
     <StoreContext.Provider value={state}>{children}</StoreContext.Provider>
   );

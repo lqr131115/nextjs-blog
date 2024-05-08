@@ -1,9 +1,8 @@
 export type UserInfo = Partial<{
-  userId: number;
+  id: number | null;
   nickname: string;
   avatar: string;
-  job: string;
-  introduce: string;
+  [key: string]: any;
 }>;
 
 export interface IUserState {
@@ -11,12 +10,14 @@ export interface IUserState {
   setUserInfo?: (userInfo: UserInfo) => void;
 }
 const defaultUserInfo: UserInfo = {
+  id: null,
   avatar: "/image/avatar.png",
 };
 
 const userState: IUserState = {
   userInfo: defaultUserInfo,
-  setUserInfo(userInfo: UserInfo) {
+  // 没有传递userInfo即重置
+  setUserInfo(userInfo: UserInfo = defaultUserInfo) {
     this.userInfo = userInfo;
   },
 };

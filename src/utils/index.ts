@@ -4,7 +4,7 @@ const EXPIRES = 24 * 60 * 60 * 1000; // 1 day
 const PATH = "/";
 
 interface ICookieInfo {
-  userId: number;
+  id: number;
   nickname: string;
   avatar: string;
   [key: string]: any;

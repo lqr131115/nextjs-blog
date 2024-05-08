@@ -37,6 +37,7 @@ const Header: NextPage = () => {
       .post("/api/user/logout")
       .then(() => {
         setIsPopoverOpen(false);
+        userStore.setUserInfo();
       })
       .catch((err) => {
         console.log("logout", err);
@@ -81,7 +82,7 @@ const Header: NextPage = () => {
         <section className={styles.action}>
           <Space>
             <Button>写文章</Button>
-            {userStore.userInfo.userId ? (
+            {userStore.userInfo.id ? (
               <div className={styles.avatar}>
                 <Popover
                   content={popoverContent}
