@@ -16,6 +16,7 @@ import { observer } from "mobx-react-lite";
 import { GithubOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
 import { useStore } from "@/store";
+import { GITHUB_CLIENT_ID, AUTH_CALLBACK_URL } from "@/constants";
 import styles from "./login.module.scss";
 type PropsType = {
   open: boolean;
@@ -34,6 +35,7 @@ const Login: FC<PropsType> = (props) => {
   const [identifyType, setIdentifyType] = useState<IdentifyType>("phone");
   const [form] = Form.useForm();
   const { user: userStore } = useStore();
+
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -88,6 +90,13 @@ const Login: FC<PropsType> = (props) => {
       .catch((err) => {
         console.log("handleLogin validateFields error", err);
       });
+  };
+  const authGithub = () => {
+    setIdentifyType("github");
+    // https://github.com/login/oauth/authorize?client_id=7e015d8ce32370079895&redirect_uri=http://localhost:3000/api/oauth/redirect
+    window.open(
+      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${AUTH_CALLBACK_URL}`
+    );
   };
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -164,7 +173,7 @@ const Login: FC<PropsType> = (props) => {
         {isShowLoginMethod && (
           <Form.Item style={{ marginBottom: 0 }}>
             <Flex justify="center" className={styles.ways}>
-              <GithubOutlined onClick={() => setIdentifyType("github")} />
+              <GithubOutlined onClick={authGithub} />
             </Flex>
           </Form.Item>
         )}

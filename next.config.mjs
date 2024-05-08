@@ -13,6 +13,9 @@ const nextConfig = {
     "rc-table",
     "rc-form",
   ],
+  images: {
+    domains: ["avatars.githubusercontent.com"],
+  },
 };
 
 export default nextConfig;
