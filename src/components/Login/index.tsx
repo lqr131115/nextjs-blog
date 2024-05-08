@@ -75,13 +75,14 @@ const Login: FC<PropsType> = (props) => {
             if (code === 0) {
               store.user.setUserInfo(data);
               onClose && onClose();
+              // location.reload();
               message.success("登录成功");
               return;
             }
             message.error(msg);
           })
-          .catch((err) => {
-            message.error("登录失败，请重试");
+          .catch(() => {
+            message.error("登录失败，请稍后重试");
           });
       })
       .catch((err) => {

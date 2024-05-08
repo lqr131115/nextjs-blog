@@ -20,4 +20,10 @@ export const setCookies = (cookies: Cookie, info: ICookieInfo) => {
   }
 };
 
-export const clearCookies = (cookies: Cookie) => {};
+export const clearCookies = (cookies: Cookie) => {
+  const allCookies = cookies.getAll() || {};
+  const expires = new Date(Date.now() + EXPIRES);
+  for (const k in allCookies) {
+    cookies.set(k, "", { expires, path: PATH });
+  }
+};
