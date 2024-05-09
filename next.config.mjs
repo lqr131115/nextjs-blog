@@ -1,3 +1,6 @@
+// const removeImports = require("next-remove-imports")();
+import nextRemoveImports from "next-remove-imports";
+const removeImports = nextRemoveImports();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // https://github.com/ant-design/ant-design/issues/46053
@@ -14,8 +17,12 @@ const nextConfig = {
     "rc-form",
   ],
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    remotePatterns: [
+      {
+        hostname: "avatars.githubusercontent.com",
+      },
+    ],
   },
 };
 
-export default nextConfig;
+export default removeImports(nextConfig);

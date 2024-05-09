@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Popover } from "antd";
+import { Button, Space, Popover, message } from "antd";
 import { PoweroffOutlined, HomeOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react-lite";
 import classNames from "classnames";
@@ -20,6 +20,9 @@ const Header: NextPage = () => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [deadline, setDeadline] = useState(0);
   const { user: userStore } = useStore();
+  const { id } = userStore.userInfo;
+  const { push } = useRouter();
+
   const goToLogin = () => {
     setIsModalOpen(true);
   };
@@ -28,8 +31,16 @@ const Header: NextPage = () => {
   };
   const goToHomepage = (e: any) => {
     e.preventDefault();
-    console.log("goToHomepage");
     setIsPopoverOpen(false);
+    push(`/user/${id}`);
+  };
+  const goToEditor = (e: any) => {
+    e.preventDefault();
+    if (id) {
+      push("/editor");
+    } else {
+      message.error("请先登录");
+    }
   };
   const logout = (e: any) => {
     e.preventDefault();
@@ -81,7 +92,7 @@ const Header: NextPage = () => {
         </section>
         <section className={styles.action}>
           <Space>
-            <Button>写文章</Button>
+            <Button onClick={goToEditor}>写文章</Button>
             {userStore.userInfo.id ? (
               <div className={styles.avatar}>
                 <Popover

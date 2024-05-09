@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
+    "@uiw/react-md-editor": "^4.0.4",
     "antd": "^5.16.4",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
@@ -23,6 +24,7 @@
     "nanoid": "^5.0.7",
     "next": "14.2.2",
     "next-cookie": "^2.8.0",
+    "next-remove-imports": "^1.0.12",
     "react": "^18",
     "react-dom": "^18",
     "reflect-metadata": "^0.2.2",
