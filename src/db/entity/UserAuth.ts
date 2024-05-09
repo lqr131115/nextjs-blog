@@ -4,9 +4,9 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  Relation,
   BaseEntity,
 } from "typeorm";
+import type { Relation } from "typeorm";
 import { User } from "./User";
 
 @Entity({ name: "user_auths" })

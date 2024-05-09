@@ -3,10 +3,11 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  Relation,
   BaseEntity,
 } from "typeorm";
+import type { Relation } from "typeorm";
 import { UserAuth } from "./UserAuth";
+import { Article } from "./Article";
 @Entity({ name: "users" })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -18,12 +19,15 @@ export class User extends BaseEntity {
   @Column()
   avatar!: string;
 
-  @Column()
+  @Column({ nullable: true })
   job!: string;
 
-  @Column()
+  @Column({ nullable: true })
   introduce!: string;
 
   @OneToMany(() => UserAuth, (auth) => auth.user)
   auths!: Relation<UserAuth[]>;
+
+  @OneToMany(() => Article, (article) => article.user)
+  articles!: Relation<Article[]>;
 }

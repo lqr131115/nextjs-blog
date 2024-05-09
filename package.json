@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "@uiw/react-md-editor": "^4.0.4",
+    "ahooks": "^3.7.11",
     "antd": "^5.16.4",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
