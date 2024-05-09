@@ -18,11 +18,26 @@ export class Article extends BaseEntity {
   @Column()
   title!: string;
 
+  @Column({ nullable: true })
+  description!: string;
+
   @Column("text")
   content!: string;
 
+  @Column({ nullable: true, default: "/image/cover.png" })
+  cover!: string;
+
   @Column({ default: 0 })
   views!: number;
+
+  @Column({ default: 0 })
+  stars!: number;
+
+  @Column({ default: 0 })
+  likes!: number;
+
+  @Column({ default: 0 })
+  comments!: number;
 
   @Column({ default: false })
   is_publish!: boolean;

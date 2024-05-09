@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { ChangeEvent, useState } from "react";
 import { useRequest } from "ahooks";
-import { Input, Button, Space, message } from "antd";
+import { Form, Input, Button, Space, message } from "antd";
 import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -13,25 +13,26 @@ import styles from "./index.module.scss";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
+type FieldType = {
+  title: string;
+  description?: string;
+};
+
 function Editor() {
-  const [title, setTitle] = useState("标题");
   const [content, setContent] = useState("**Hello world!**");
+  const [form] = Form.useForm();
   const { push } = useRouter();
   const { user } = useStore();
-  //   const handleSave = () => {
-  //     if (!title) {
-  //       message.error("标题不能为空");
-  //       return;
-  //     }
-  //   };
   const { loading, run: handlePublish } = useRequest(
     async () => {
+      const { title, description } = form.getFieldsValue();
       if (!title) {
         message.error("标题不能为空");
         return;
       }
       return await request.post("/api/article/create", {
         title,
+        description,
         content,
         isPublished: true,
       });
@@ -49,10 +50,6 @@ function Editor() {
       },
     }
   );
-  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setTitle(e.target.value);
-  };
   const onContentChange = (value?: string) => {
     setContent(value!);
   };
@@ -60,15 +57,24 @@ function Editor() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.action}>
-        <Input
-          className={styles.title}
-          allowClear
-          value={title}
-          placeholder="请输入标题"
-          onChange={onTitleChange}
-        />
+        <Form form={form} layout="inline">
+          <Form.Item<FieldType>
+            label="标题"
+            name="title"
+            style={{ width: 500 }}
+            rules={[{ required: true, message: "标题不能为空" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item<FieldType>
+            style={{ width: 400 }}
+            label="描述"
+            name="description"
+          >
+            <Input />
+          </Form.Item>
+        </Form>
         <Space>
-          {/* <Button onClick={handleSave}>保存</Button> */}
           <Button
             disabled={loading}
             icon={loading ? <LoadingOutlined /> : null}

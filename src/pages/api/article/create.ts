@@ -15,7 +15,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { title, content, isPublished = false } = req.body;
+    const { title, content, description = "", isPublished = false } = req.body;
     // 服务端校验
     if (!title) {
       res.status(200).json(TITLE_IS_NULL);
@@ -43,6 +43,7 @@ export default async function handler(
     });
     const article = new Article();
     article.title = title;
+    article.description = description;
     article.content = content;
     article.is_publish = isPublished;
     article.user = user!;
