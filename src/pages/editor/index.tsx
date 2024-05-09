@@ -2,9 +2,11 @@ import dynamic from "next/dynamic";
 import { ChangeEvent, useState } from "react";
 import { useRequest } from "ahooks";
 import { Input, Button, Space, message } from "antd";
+import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
+import { useStore } from "@/store";
 import request from "@/service/fetch";
 import styles from "./index.module.scss";
 // import * as commands from "@uiw/react-md-editor/commands";
@@ -14,6 +16,8 @@ const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 function Editor() {
   const [title, setTitle] = useState("标题");
   const [content, setContent] = useState("**Hello world!**");
+  const { push } = useRouter();
+  const { user } = useStore();
   //   const handleSave = () => {
   //     if (!title) {
   //       message.error("标题不能为空");
@@ -38,6 +42,8 @@ function Editor() {
         const { code } = res ?? {};
         if (code === 0) {
           // TODO: 跳转
+          const { id } = user.userInfo;
+          id ? push(`/user/${id}`) : push("/");
           message.success("发布成功");
         }
       },

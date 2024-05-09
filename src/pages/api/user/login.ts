@@ -7,7 +7,12 @@ import { AppDataSource } from "@/db";
 import { ironSessionOptions } from "@/config";
 import { setCookies } from "@/utils";
 import { ISession } from "..";
-
+import {
+  ACCOUNT_IS_NULL,
+  VERIFY_CODE_IS_NULL,
+  AGREEMENT_IS_NOT_CHECKED,
+  VERIFY_CODE_IS_EXPIRE,
+} from "@/constants/response";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -16,15 +21,15 @@ export default async function handler(
     const { phone, verification, identifyType = "phone", agreement } = req.body;
     // 服务端校验
     if (!phone) {
-      res.status(200).json({ code: -1, msg: "请输入账号" });
+      res.status(200).json(ACCOUNT_IS_NULL);
       return;
     }
     if (!verification) {
-      res.status(200).json({ code: -1, msg: "请输入验证码" });
+      res.status(200).json(VERIFY_CODE_IS_NULL);
       return;
     }
     if (!agreement) {
-      res.status(200).json({ code: -1, msg: "请先勾选协议" });
+      res.status(200).json(AGREEMENT_IS_NOT_CHECKED);
       return;
     }
     const session: ISession = await getIronSession(
@@ -33,7 +38,7 @@ export default async function handler(
       ironSessionOptions
     );
     if (session.verifyCode == null) {
-      res.status(200).json({ code: -1, msg: "验证码已过期" });
+      res.status(200).json(VERIFY_CODE_IS_EXPIRE);
       return;
     }
     const cookies = Cookie.fromApiRoute(req, res);
