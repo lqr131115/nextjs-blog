@@ -1,13 +1,17 @@
 import { useRef, useEffect } from "react";
+import { EyeOutlined } from "@ant-design/icons";
+import { Space, Button } from "antd";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/a11y-light.css";
-
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { Article } from "@/db/entity";
 import { AppDataSource } from "@/db";
 import { IArticle } from "@/pages/api";
+import Comment from "@/components/Comment";
 import styles from "./index.module.scss";
+
 export async function getServerSideProps({ query }: any) {
   const { id } = query;
   const articleRep = AppDataSource.isInitialized
@@ -37,6 +41,7 @@ function renderMarkdownToHTML(markdown: string) {
 }
 const ArticleDetail: NextPage<IProps> = ({ article }) => {
   const divRef = useRef<HTMLDivElement>(null);
+  const { push } = useRouter();
   useEffect(() => {
     if (divRef) {
       const root = divRef.current;
@@ -49,14 +54,36 @@ const ArticleDetail: NextPage<IProps> = ({ article }) => {
       }
     }
   }, [article.content]);
+  const goToEditor = () => {
+    push(`/editor/${article.id}`);
+  };
   return (
     <div className={styles.wrapper}>
-      <span>{article.user.nickname}</span>
-      <h1>{article.title}</h1>
-      <div
-        ref={divRef}
-        dangerouslySetInnerHTML={renderMarkdownToHTML(article.content)}
-      />
+      <div className={styles.header}>
+        <h1 className={styles.title}>{article.title}</h1>
+        <div className={styles.info}>
+          <Space size="large">
+            <span className={styles.nickname}>{article.user.nickname}</span>
+            <span>{new Date(article.create_time).toLocaleDateString()}</span>
+            <Space>
+              <EyeOutlined />
+              {article.views}
+            </Space>
+            <Button type="link" onClick={goToEditor}>
+              编辑
+            </Button>
+          </Space>
+        </div>
+      </div>
+      <div className={styles.content}>
+        <div
+          ref={divRef}
+          dangerouslySetInnerHTML={renderMarkdownToHTML(article.content)}
+        />
+      </div>
+      <div className={styles.footer}>
+        <Comment />
+      </div>
     </div>
   );
 };

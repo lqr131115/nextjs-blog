@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useRequest } from "ahooks";
 import { Form, Input, Button, Space, message } from "antd";
 import { useRouter } from "next/router";
