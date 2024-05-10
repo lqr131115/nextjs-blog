@@ -1,7 +1,12 @@
 import React from "react";
 import { IArticle } from "@/pages/api";
 import { List, Space } from "antd";
-import { StarOutlined, LikeOutlined, MessageOutlined } from "@ant-design/icons";
+import {
+  StarOutlined,
+  LikeOutlined,
+  MessageOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "./article.module.scss";
@@ -32,19 +37,24 @@ const ArticleList: NextPage<IProps> = ({ articles }) => {
             key={item.title}
             actions={[
               <IconText
+                icon={EyeOutlined}
+                text={item.views + ""}
+                key="list-vertical-view"
+              />,
+              <IconText
                 icon={StarOutlined}
                 text={item.stars + ""}
-                key="list-vertical-star-o"
+                key="list-vertical-star"
               />,
               <IconText
                 icon={LikeOutlined}
                 text={item.likes + ""}
-                key="list-vertical-like-o"
+                key="list-vertical-like"
               />,
               <IconText
                 icon={MessageOutlined}
                 text={item.comments + ""}
-                key="list-vertical-message"
+                key="list-vertical-comment"
               />,
             ]}
             extra={
@@ -59,7 +69,7 @@ const ArticleList: NextPage<IProps> = ({ articles }) => {
                   width={30}
                   height={30}
                   alt="avatar"
-                  src={item.user.avatar}
+                  src={item.user.avatar!}
                 />
               }
               title={item.title}

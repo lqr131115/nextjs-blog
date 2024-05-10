@@ -29,6 +29,7 @@
     "react": "^18",
     "react-dom": "^18",
     "reflect-metadata": "^0.2.2",
+    "remarkable": "^2.0.1",
     "sass": "^1.75.0",
     "typeorm": "^0.3.20"
   },
@@ -37,6 +38,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/remarkable": "^2.0.8",
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "typescript": "^5"
