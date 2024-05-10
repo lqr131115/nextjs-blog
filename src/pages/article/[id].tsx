@@ -1,6 +1,9 @@
+import { useRef, useEffect } from "react";
+import { marked } from "marked";
+import hljs from "highlight.js";
+import "highlight.js/styles/a11y-light.css";
+
 import type { NextPage } from "next";
-// import { marked } from "marked";
-import { Remarkable } from "remarkable";
 import { Article } from "@/db/entity";
 import { AppDataSource } from "@/db";
 import { IArticle } from "@/pages/api";
@@ -25,23 +28,35 @@ export async function getServerSideProps({ query }: any) {
 interface IProps {
   article: IArticle;
 }
-const md = new Remarkable();
 function renderMarkdownToHTML(markdown: string) {
   // This is ONLY safe because the output HTML
   // is shown to the same user, and because you
   // trust this Markdown parser to not have bugs.
-  const renderedHTML = md.render(markdown);
+  const renderedHTML = marked.parse(markdown);
   return { __html: renderedHTML };
 }
-
 const ArticleDetail: NextPage<IProps> = ({ article }) => {
+  const divRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (divRef) {
+      const root = divRef.current;
+      const codes = (root?.querySelectorAll("pre code") ?? []) as any;
+      hljs.configure({
+        ignoreUnescapedHTML: true,
+      });
+      for (const code of codes) {
+        hljs.highlightElement(code);
+      }
+    }
+  }, [article.content]);
   return (
     <div className={styles.wrapper}>
       <span>{article.user.nickname}</span>
       <h1>{article.title}</h1>
       <div
+        ref={divRef}
         dangerouslySetInnerHTML={renderMarkdownToHTML(article.content)}
-      ></div>
+      />
     </div>
   );
 };

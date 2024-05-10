@@ -16,8 +16,10 @@
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
+    "highlight.js": "^11.9.0",
     "iron-session": "^8.0.1",
     "js-base64": "^3.7.7",
+    "marked": "^12.0.2",
     "md5": "^2.3.0",
     "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
@@ -29,7 +31,6 @@
     "react": "^18",
     "react-dom": "^18",
     "reflect-metadata": "^0.2.2",
-    "remarkable": "^2.0.1",
     "sass": "^1.75.0",
     "typeorm": "^0.3.20"
   },
