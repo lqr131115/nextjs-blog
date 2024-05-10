@@ -1,6 +1,6 @@
 import React from "react";
 import { IArticle } from "@/pages/api";
-import { List, Space } from "antd";
+import { List } from "antd";
 import {
   StarOutlined,
   LikeOutlined,
@@ -9,21 +9,15 @@ import {
 } from "@ant-design/icons";
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "./article.module.scss";
 import { useRouter } from "next/router";
+import styles from "./article.module.scss";
+import { IconText } from "./component";
 interface IProps {
   articles: IArticle[];
 }
 
 const ArticleList: NextPage<IProps> = ({ articles }) => {
   const { push } = useRouter();
-  const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  );
-
   return (
     <>
       <List

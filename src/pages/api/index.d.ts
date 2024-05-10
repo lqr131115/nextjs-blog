@@ -18,4 +18,13 @@ export interface IArticle {
   [key: string]: any;
 }
 
+export interface IComment {
+  id: number;
+  content: string;
+  create_time: Date;
+  user: any;
+  reply: any[];
+  [key: string]: any;
+}
+
 export type ISession = IronSession & { verifyCode: string };
