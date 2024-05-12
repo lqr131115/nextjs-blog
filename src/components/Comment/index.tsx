@@ -13,12 +13,12 @@ const commentList: IComment[] = [
     id: 1,
     content: "古德古德",
     create_time: new Date(),
+    update_time: new Date(),
     user: {
       id: 1,
       nickname: "nickname",
       avatar: "/image/avatar.png",
     },
-    reply: [],
   },
 ];
 const tabItems: TabsProps["items"] = [

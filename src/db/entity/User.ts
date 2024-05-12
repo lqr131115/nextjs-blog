@@ -8,6 +8,7 @@ import {
 import type { Relation } from "typeorm";
 import { UserAuth } from "./UserAuth";
 import { Article } from "./Article";
+import { Comment } from "./Comment";
 @Entity({ name: "users" })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -30,4 +31,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Article, (article) => article.user)
   articles!: Relation<Article[]>;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments!: Relation<Comment[]>;
 }

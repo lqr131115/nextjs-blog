@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToMany,
   JoinColumn,
   BaseEntity,
   CreateDateColumn,
@@ -10,6 +11,7 @@ import {
 } from "typeorm";
 import type { Relation } from "typeorm";
 import { User } from "./User";
+import { Comment } from "./Comment";
 @Entity({ name: "articles" })
 export class Article extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -37,7 +39,7 @@ export class Article extends BaseEntity {
   likes!: number;
 
   @Column({ default: 0 })
-  comments!: number;
+  reviews!: number;
 
   @Column({ default: false })
   is_publish!: boolean;
@@ -57,4 +59,7 @@ export class Article extends BaseEntity {
   })
   @JoinColumn({ name: "user_id" }) // 自定义关联列名, 默认是 userID;  实体中不需要定义 user_id 字段
   user!: Relation<User>;
+
+  @OneToMany(() => Comment, (comment) => comment.article)
+  comments!: Relation<Comment[]>;
 }

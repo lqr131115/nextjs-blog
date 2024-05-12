@@ -9,7 +9,7 @@ export interface IArticle {
   views: number;
   stars: number;
   likes: number;
-  comments: number;
+  reviews: number;
   is_publish: boolean;
   is_delete: number;
   create_time: Date;
@@ -22,8 +22,9 @@ export interface IComment {
   id: number;
   content: string;
   create_time: Date;
+  update_time: Date;
   user: any;
-  reply: any[];
+  // reply: any[];
   [key: string]: any;
 }
 

@@ -47,7 +47,7 @@ const ArticleList: NextPage<IProps> = ({ articles }) => {
               />,
               <IconText
                 icon={MessageOutlined}
-                text={item.comments + ""}
+                text={item.reviews + ""}
                 key="list-vertical-comment"
               />,
             ]}
