@@ -53,13 +53,9 @@ export default async function handler(
       : (await AppDataSource.initialize()).getRepository(Article);
     await articleRep.save(article);
 
-    res
-      .status(200)
-      .json({ code: 0, msg: "create or update success", data: null });
+    res.status(200).json({ code: 0, msg: "create success", data: null });
   } catch (error) {
     console.log("login error", error);
-    res
-      .status(200)
-      .json({ code: -1, msg: "create or update failed", data: null });
+    res.status(200).json({ code: -1, msg: "create failed", data: null });
   }
 }
