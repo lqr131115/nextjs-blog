@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Article } from "@/db/entity";
 import { AppDataSource } from "@/db";
-import { TITLE_IS_NULL, CONTENT_IS_NULL } from "@/constants/response";
+import {
+  TITLE_IS_NULL,
+  CONTENT_IS_NULL,
+  UPDATE_ARTICLE_FAILED,
+} from "@/constants/response";
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,7 +39,6 @@ export default async function handler(
     }
     res.status(200).json({ code: 0, msg: "update success", data: null });
   } catch (error) {
-    console.log("login error", error);
-    res.status(200).json({ code: -1, msg: "update failed", data: null });
+    res.status(200).json(UPDATE_ARTICLE_FAILED);
   }
 }

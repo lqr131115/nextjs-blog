@@ -8,6 +8,7 @@ import {
   TITLE_IS_NULL,
   CONTENT_IS_NULL,
   USER_IS_NOT_LOGIN,
+  CREATE_ARTICLE_FAILED,
 } from "@/constants/response";
 
 export default async function handler(
@@ -55,7 +56,6 @@ export default async function handler(
 
     res.status(200).json({ code: 0, msg: "create success", data: null });
   } catch (error) {
-    console.log("login error", error);
-    res.status(200).json({ code: -1, msg: "create failed", data: null });
+    res.status(200).json(CREATE_ARTICLE_FAILED);
   }
 }
