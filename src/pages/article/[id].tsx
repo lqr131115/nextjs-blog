@@ -22,6 +22,12 @@ export async function getServerSideProps({ query }: any) {
     relations: ["user"],
   });
 
+  // 更新浏览量
+  if (article) {
+    article.views += 1;
+    await articleRep.save(article);
+  }
+
   return {
     props: {
       article: JSON.parse(JSON.stringify(article)),
