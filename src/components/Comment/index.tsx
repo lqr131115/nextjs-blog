@@ -10,37 +10,25 @@ import { MAX_COMMENT_LEN } from "@/constants/response";
 import styles from "./index.module.scss";
 
 const { TextArea } = Input;
-const commentList: IComment[] = [
-  {
-    id: 1,
-    content: "古德古德",
-    create_time: new Date(),
-    update_time: new Date(),
-    user: {
-      id: 1,
-      nickname: "nickname",
-      avatar: "/image/avatar.png",
-    },
-  },
-];
 
 interface IProps {
+  comments: IComment[];
   articleId: number;
 }
 
-const Comment: NextPage<IProps> = ({ articleId }) => {
+const Comment: NextPage<IProps> = ({ articleId, comments }) => {
   const [content, setContent] = useState<string>();
   const [contentLen, setContentLen] = useState<number>(0);
   const tabItems: TabsProps["items"] = [
     {
       key: "latest",
       label: "最新",
-      children: <CommentList comments={commentList} />,
+      children: <CommentList comments={comments} />,
     },
     {
       key: "hot",
       label: "最热",
-      children: <CommentList comments={commentList} />,
+      children: <CommentList comments={comments} />,
     },
   ];
   const onCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

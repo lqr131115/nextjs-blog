@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Article } from "@/db/entity";
 import { getRepository } from "@/db";
 import { IArticle } from "@/pages/api";
-import Comment from "@/components/Comment";
+import ArticleComment from "@/components/Comment";
 import styles from "./index.module.scss";
 
 export async function getServerSideProps({ query }: any) {
@@ -17,7 +17,7 @@ export async function getServerSideProps({ query }: any) {
   const articleRep = await getRepository(Article);
   const article = await articleRep.findOne({
     where: { id },
-    relations: ["user"],
+    relations: ["user", "comments", "comments.user"],
   });
 
   // 更新浏览量
@@ -86,7 +86,10 @@ const ArticleDetail: NextPage<IProps> = ({ article }) => {
         />
       </div>
       <div className={styles.footer}>
-        <Comment articleId={article.id} />
+        <ArticleComment
+          articleId={article.id}
+          comments={article.comments ?? []}
+        />
       </div>
     </div>
   );

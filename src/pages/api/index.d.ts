@@ -15,6 +15,7 @@ export interface IArticle {
   create_time: Date;
   update_time: Date;
   user: User;
+  comments: IComment[];
   [key: string]: any;
 }
 
