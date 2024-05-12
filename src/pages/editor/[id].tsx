@@ -6,16 +6,14 @@ import { useRouter } from "next/router";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { Article } from "@/db/entity";
-import { AppDataSource } from "@/db";
+import { getRepository } from "@/db";
 import { LoadingOutlined } from "@ant-design/icons";
 import request from "@/service/fetch";
 import styles from "./index.module.scss";
 
 export async function getServerSideProps({ query }: any) {
   const { id } = query;
-  const articleRep = AppDataSource.isInitialized
-    ? AppDataSource.getRepository(Article)
-    : (await AppDataSource.initialize()).getRepository(Article);
+  const articleRep = await getRepository(Article);
   const article = await articleRep.findOne({
     where: { id },
     relations: ["user"],

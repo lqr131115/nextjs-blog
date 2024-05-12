@@ -10,3 +10,12 @@ export const TITLE_IS_NULL = { code: 20000, msg: "文章标题不能为空" };
 export const CONTENT_IS_NULL = { code: 20001, msg: "文章内容不能为空" };
 export const CREATE_ARTICLE_FAILED = { code: 20002, msg: "创建文章失败" };
 export const UPDATE_ARTICLE_FAILED = { code: 20003, msg: "更新文章失败" };
+
+// Comment Response
+export const MAX_COMMENT_LEN = 1000;
+export const COMMENT_IS_NULL = { code: 30001, msg: "评论不能为空" };
+export const COMMENT_LENGTH_INVALID = {
+  code: 30002,
+  msg: `评论长度不能超过${MAX_COMMENT_LEN}`,
+};
+export const CREATE_COMMENT_FAILED = { code: 30003, msg: "创建评论失败" };

@@ -4,7 +4,7 @@ import { Cookie } from "next-cookie";
 import { ironSessionOptions } from "@/config";
 import request from "@/service/fetch";
 import { User, UserAuth } from "@/db/entity";
-import { AppDataSource } from "@/db";
+import { getRepository } from "@/db";
 import { setCookies } from "@/utils";
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "@/constants";
 import { ISession } from "..";
@@ -52,9 +52,7 @@ export default async function handler(
       ironSessionOptions
     );
     const cookies = Cookie.fromApiRoute(req, res);
-    const userAuthRep = AppDataSource.isInitialized
-      ? AppDataSource.getRepository(UserAuth)
-      : (await AppDataSource.initialize()).getRepository(UserAuth);
+    const userAuthRep = await getRepository(UserAuth);
     const exist = await userAuthRep.findOne({
       where: { identifier: GITHUB_CLIENT_ID, identify_type },
       relations: ["user"], // 返回信息中包含User信息

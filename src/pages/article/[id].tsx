@@ -7,16 +7,14 @@ import "highlight.js/styles/a11y-light.css";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Article } from "@/db/entity";
-import { AppDataSource } from "@/db";
+import { getRepository } from "@/db";
 import { IArticle } from "@/pages/api";
 import Comment from "@/components/Comment";
 import styles from "./index.module.scss";
 
 export async function getServerSideProps({ query }: any) {
   const { id } = query;
-  const articleRep = AppDataSource.isInitialized
-    ? AppDataSource.getRepository(Article)
-    : (await AppDataSource.initialize()).getRepository(Article);
+  const articleRep = await getRepository(Article);
   const article = await articleRep.findOne({
     where: { id },
     relations: ["user"],
@@ -88,7 +86,7 @@ const ArticleDetail: NextPage<IProps> = ({ article }) => {
         />
       </div>
       <div className={styles.footer}>
-        <Comment />
+        <Comment articleId={article.id} />
       </div>
     </div>
   );

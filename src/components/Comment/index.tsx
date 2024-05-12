@@ -1,10 +1,12 @@
 import { ChangeEvent, useState } from "react";
-import { Space, Button, Input, Tabs } from "antd";
+import { Space, Button, Input, Tabs, message } from "antd";
 import { SmileOutlined, FileImageOutlined } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 import type { NextPage } from "next";
 import type { IComment } from "@/pages/api";
+import request from "@/service/fetch";
 import CommentList from "@/components/List/comment";
+import { MAX_COMMENT_LEN } from "@/constants/response";
 import styles from "./index.module.scss";
 
 const { TextArea } = Input;
@@ -21,34 +23,55 @@ const commentList: IComment[] = [
     },
   },
 ];
-const tabItems: TabsProps["items"] = [
-  {
-    key: "latest",
-    label: "最新",
-    children: <CommentList comments={commentList} />,
-  },
-  {
-    key: "hot",
-    label: "最热",
-    children: <CommentList comments={commentList} />,
-  },
-];
-const Comment: NextPage = () => {
-  const [comment, setComment] = useState<string>();
-  const [commentLen, setCommentLen] = useState<number>(0);
-  const onCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(e.target.value);
-    setCommentLen(e.target.value.length);
-  };
 
+interface IProps {
+  articleId: number;
+}
+
+const Comment: NextPage<IProps> = ({ articleId }) => {
+  const [content, setContent] = useState<string>();
+  const [contentLen, setContentLen] = useState<number>(0);
+  const tabItems: TabsProps["items"] = [
+    {
+      key: "latest",
+      label: "最新",
+      children: <CommentList comments={commentList} />,
+    },
+    {
+      key: "hot",
+      label: "最热",
+      children: <CommentList comments={commentList} />,
+    },
+  ];
+  const onCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+    setContentLen(e.target.value.length);
+  };
+  const handleComment = () => {
+    if (!content) {
+      message.error("评论不能为空");
+      return;
+    }
+
+    request
+      .post("/api/comment/create", {
+        articleId,
+        content,
+      })
+      .then(() => {
+        setContent("");
+        setContentLen(0);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className={styles.wrapper}>
       <div className={styles.comment}>
         <div className={styles.area}>
           <TextArea
-            maxLength={1000}
+            maxLength={MAX_COMMENT_LEN}
             style={{ minHeight: 100 }}
-            value={comment}
+            value={content}
             onChange={onCommentChange}
             placeholder="友善交流"
           />
@@ -59,8 +82,10 @@ const Comment: NextPage = () => {
             <FileImageOutlined />
           </Space>
           <Space size="large">
-            <span>{commentLen}/1000</span>
-            <Button type="primary" size="small">
+            <span>
+              {contentLen}/{MAX_COMMENT_LEN}
+            </span>
+            <Button type="primary" size="small" onClick={handleComment}>
               发送
             </Button>
           </Space>

@@ -3,7 +3,7 @@ import { getIronSession } from "iron-session";
 import { nanoid } from "nanoid";
 import { Cookie } from "next-cookie";
 import { User, UserAuth } from "@/db/entity";
-import { AppDataSource } from "@/db";
+import { getRepository } from "@/db";
 import { ironSessionOptions } from "@/config";
 import { setCookies } from "@/utils";
 import { ISession } from "..";
@@ -43,13 +43,7 @@ export default async function handler(
     }
     const cookies = Cookie.fromApiRoute(req, res);
     const verifyCode = session.verifyCode.toString();
-    // const userRep = AppDataSource.isInitialized
-    //   ? AppDataSource.getRepository(User)
-    //   : (await AppDataSource.initialize()).getRepository(User);
-    const userAuthRep = AppDataSource.isInitialized
-      ? AppDataSource.getRepository(UserAuth)
-      : (await AppDataSource.initialize()).getRepository(UserAuth);
-
+    const userAuthRep = await getRepository(UserAuth);
     if (verification === verifyCode) {
       const exist = await userAuthRep.findOne({
         where: { identifier: phone, identify_type: identifyType },

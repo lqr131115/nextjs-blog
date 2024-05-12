@@ -1,13 +1,11 @@
 import type { NextPage } from "next";
 import { Article } from "@/db/entity";
-import { AppDataSource } from "@/db";
+import { getRepository } from "@/db";
 import ArticleList from "@/components/List/article";
 import styles from "./index.module.scss";
 
 export async function getServerSideProps() {
-  const articleRep = AppDataSource.isInitialized
-    ? AppDataSource.getRepository(Article)
-    : (await AppDataSource.initialize()).getRepository(Article);
+  const articleRep = await getRepository(Article);
   // 也可直接使用store中的UserInfo, 此处使用级联
   const articles = await articleRep.find({ relations: ["user"] });
 

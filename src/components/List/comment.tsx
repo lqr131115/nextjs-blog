@@ -1,6 +1,6 @@
 import React from "react";
 import { IComment } from "@/pages/api";
-import { List, Space } from "antd";
+import { List } from "antd";
 import { LikeOutlined, MessageOutlined } from "@ant-design/icons";
 import type { NextPage } from "next";
 import Image from "next/image";

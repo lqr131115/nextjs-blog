@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getIronSession } from "iron-session";
-import { User, Article } from "@/db/entity";
+import { User, Article, Comment } from "@/db/entity";
 import { AppDataSource, getRepository } from "@/db";
 import { ironSessionOptions } from "@/config";
 import { ISession } from "..";
 import {
-  TITLE_IS_NULL,
-  CONTENT_IS_NULL,
+  COMMENT_IS_NULL,
   USER_IS_NOT_LOGIN,
-  CREATE_ARTICLE_FAILED,
+  MAX_COMMENT_LEN,
+  COMMENT_LENGTH_INVALID,
+  CREATE_COMMENT_FAILED,
 } from "@/constants/response";
 
 export default async function handler(
@@ -16,14 +17,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { title, content, description = "", isPublished = false } = req.body;
+    const { articleId, content = "" } = req.body;
     // 服务端校验
-    if (!title) {
-      res.status(200).json(TITLE_IS_NULL);
+    if (!content) {
+      res.status(200).json(COMMENT_IS_NULL);
       return;
     }
-    if (!content) {
-      res.status(200).json(CONTENT_IS_NULL);
+    if (content.length > MAX_COMMENT_LEN) {
+      res.status(200).json(COMMENT_LENGTH_INVALID);
       return;
     }
     const session: ISession = await getIronSession(
@@ -35,23 +36,24 @@ export default async function handler(
       res.status(200).json(USER_IS_NOT_LOGIN);
       return;
     }
+    const { id: useId } = session.user;
     const userRep = await getRepository(User);
-    const { id } = session.user;
     const user = await userRep.findOne({
-      where: { id },
+      where: { id: useId },
     });
-    const article = new Article();
-    article.title = title;
-    article.description = description;
-    article.content = content;
-    article.is_publish = isPublished;
-    article.user = user!;
-
-    const articleRep = await getRepository(Article);
-    await articleRep.save(article);
+    const articleRep = AppDataSource.getRepository(Article);
+    const article = await articleRep.findOne({
+      where: { id: articleId },
+    });
+    const commentRep = AppDataSource.getRepository(Comment);
+    const comment = new Comment();
+    comment.content = content;
+    comment.article = article!;
+    comment.user = user!;
+    await commentRep.save(comment);
 
     res.status(200).json({ code: 0, msg: "create success", data: null });
   } catch (error) {
-    res.status(200).json(CREATE_ARTICLE_FAILED);
+    res.status(200).json(CREATE_COMMENT_FAILED);
   }
 }

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
 import { User, UserAuth, Article, Comment } from "./entity";
 
 export const AppDataSource = new DataSource({
@@ -13,6 +13,14 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
 });
+
+export const getRepository = async <Entity extends ObjectLiteral>(
+  entity: EntityTarget<Entity>
+) => {
+  return AppDataSource.isInitialized
+    ? AppDataSource.getRepository(entity)
+    : (await AppDataSource.initialize()).getRepository(entity);
+};
 
 // to initialize the initial connection with the database, register all entities
 // and "synchronize" database schema, call "initialize()" method of a newly created database

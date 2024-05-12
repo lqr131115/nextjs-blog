@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Article } from "@/db/entity";
-import { AppDataSource } from "@/db";
+import { AppDataSource, getRepository } from "@/db";
 import {
   TITLE_IS_NULL,
   CONTENT_IS_NULL,
@@ -23,9 +23,7 @@ export default async function handler(
       return;
     }
 
-    const articleRep = AppDataSource.isInitialized
-      ? AppDataSource.getRepository(Article)
-      : (await AppDataSource.initialize()).getRepository(Article);
+    const articleRep = await getRepository(Article);
 
     const article = await articleRep.findOne({
       where: { id },
