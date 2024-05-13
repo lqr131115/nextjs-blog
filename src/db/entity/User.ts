@@ -3,12 +3,15 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
+  ManyToMany,
   BaseEntity,
+  JoinTable,
 } from "typeorm";
 import type { Relation } from "typeorm";
 import { UserAuth } from "./UserAuth";
 import { Article } from "./Article";
 import { Comment } from "./Comment";
+import { Tag } from "./Tag";
 @Entity({ name: "users" })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -34,4 +37,8 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments!: Relation<Comment[]>;
+
+  @ManyToMany(() => Tag, (tag) => tag.users)
+  @JoinTable()
+  tags!: Relation<Tag[]>;
 }

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getIronSession } from "iron-session";
 import { User, Article } from "@/db/entity";
-import { AppDataSource, getRepository } from "@/db";
+import { getRepository } from "@/db";
 import { ironSessionOptions } from "@/config";
 import { ISession } from "..";
 import {

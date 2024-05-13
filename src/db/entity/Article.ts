@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  ManyToMany,
   JoinColumn,
+  JoinTable,
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
@@ -12,6 +14,7 @@ import {
 import type { Relation } from "typeorm";
 import { User } from "./User";
 import { Comment } from "./Comment";
+import { Tag } from "./Tag";
 @Entity({ name: "articles" })
 export class Article extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -62,4 +65,8 @@ export class Article extends BaseEntity {
 
   @OneToMany(() => Comment, (comment) => comment.article)
   comments!: Relation<Comment[]>;
+
+  @ManyToMany(() => Tag, (tag) => tag.articles)
+  @JoinTable()
+  tags!: Relation<Tag[]>;
 }

@@ -19,3 +19,6 @@ export const COMMENT_LENGTH_INVALID = {
   msg: `评论长度不能超过${MAX_COMMENT_LEN}`,
 };
 export const CREATE_COMMENT_FAILED = { code: 30003, msg: "创建评论失败" };
+
+// Tag Response
+export const CET_TAG_FAILED = { code: 40000, msg: "获取标签失败" };
