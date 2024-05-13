@@ -39,6 +39,5 @@ export class User extends BaseEntity {
   comments!: Relation<Comment[]>;
 
   @ManyToMany(() => Tag, (tag) => tag.users)
-  @JoinTable()
   tags!: Relation<Tag[]>;
 }

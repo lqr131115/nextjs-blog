@@ -4,7 +4,7 @@ import { List } from "antd";
 import { LikeOutlined, MessageOutlined } from "@ant-design/icons";
 import type { NextPage } from "next";
 import Image from "next/image";
-import { IconText } from "./component";
+import IconText from "./components/IconText";
 interface IProps {
   comments: IComment[];
 }

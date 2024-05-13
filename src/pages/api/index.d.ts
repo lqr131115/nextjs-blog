@@ -42,8 +42,8 @@ export interface ITag {
   icon: string;
   follow_count: number;
   article_count: number;
-  // users: IUser[];
-  // articles: IArticle[];
+  users: IUser[];
+  articles: IArticle[];
   [key: string]: any;
 }
 

@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+
+  .card {
+    width: 150px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.12);
+    }
+    .header {
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .cover {
+        font-size: 40px;
+      }
+
+      .title {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+  }
+}

@@ -1,12 +1,27 @@
 import { useEffect, useState } from "react";
+import { Tabs } from "antd";
+import type { TabsProps } from "antd";
 import type { NextPage } from "next";
 import { ITag } from "../api";
 import request from "@/service/fetch";
+import TagList from "@/components/List/tag";
 import styles from "./index.module.scss";
 
 const Tag: NextPage = () => {
   const [followTags, setFollowTags] = useState<ITag[]>([]);
   const [allTags, setAllTags] = useState<ITag[]>([]);
+  const tabItems: TabsProps["items"] = [
+    {
+      label: "所有",
+      key: "all",
+      children: <TagList tags={allTags} />,
+    },
+    {
+      label: "关注",
+      key: "follow",
+      children: <TagList tags={followTags} />,
+    },
+  ];
   useEffect(() => {
     request.get("/api/tag/get").then((res: any) => {
       const { code, data } = res;
@@ -17,7 +32,17 @@ const Tag: NextPage = () => {
       }
     });
   }, []);
-  return <div className={styles.wrapper}>I am Tag</div>;
+
+  return (
+    <div className={styles.wrapper}>
+      <Tabs
+        className={styles.tabs}
+        defaultActiveKey="all"
+        tabPosition="left"
+        items={tabItems}
+      />
+    </div>
+  );
 };
 
 export default Tag;

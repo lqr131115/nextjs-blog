@@ -21,13 +21,14 @@ export default async function handler(
       return;
     }
     const { id: useId } = session.user;
-    console.log("useId", useId);
-
-    const tagRep = await getRepository(Tag);
-    const allTags = await tagRep.find();
     // const followTags = await tagRep.find({
     //   relations: ["users"],
     // });
+
+    const tagRep = await getRepository(Tag);
+    const allTags = await tagRep.find({
+      relations: ["users"],
+    });
 
     res
       .status(200)
