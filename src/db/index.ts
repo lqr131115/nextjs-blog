@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_DATABASE,
   entities: [User, UserAuth, Article, Comment, Tag],
-  synchronize: false,
+  synchronize: false, // 初始化后置为false，需要重新初始化设置为true
   logging: false,
 });
 

@@ -22,3 +22,5 @@ export const CREATE_COMMENT_FAILED = { code: 30003, msg: "创建评论失败" };
 
 // Tag Response
 export const CET_TAG_FAILED = { code: 40000, msg: "获取标签失败" };
+export const FOLLOW_TAG_FAILED = { code: 40001, msg: "关注标签失败" };
+export const UN_FOLLOW_TAG_FAILED = { code: 40002, msg: "取关标签失败" };
