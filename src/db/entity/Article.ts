@@ -6,7 +6,6 @@ import {
   OneToMany,
   ManyToMany,
   JoinColumn,
-  JoinTable,
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
@@ -60,12 +59,14 @@ export class Article extends BaseEntity {
   @ManyToOne(() => User, (user) => user.articles, {
     cascade: true,
   })
-  @JoinColumn({ name: "user_id" }) // 自定义关联列名, 默认是 userID;  实体中不需要定义 user_id 字段
+  @JoinColumn({ name: "user_id" }) // 自定义关联列名, 默认是 userID;  实体中不能再定义 user_id 字段 //和relations中一致, 如{relations: ["user"]} 
   user!: Relation<User>;
 
   @OneToMany(() => Comment, (comment) => comment.article)
   comments!: Relation<Comment[]>;
 
-  @ManyToMany(() => Tag, (tag) => tag.articles)
+  @ManyToMany(() => Tag, (tag) => tag.articles, {
+    cascade:true
+  })
   tags!: Relation<Tag[]>;
 }

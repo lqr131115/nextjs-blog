@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getIronSession } from "iron-session";
-import { User, Article } from "@/db/entity";
+import { User, Article, Tag } from "@/db/entity";
 import { getRepository } from "@/db";
 import { ironSessionOptions } from "@/config";
 import { ISession } from "..";
@@ -16,7 +16,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { title, content, description = "", isPublished = false } = req.body;
+    const {
+      title,
+      content,
+      description = "",
+      isPublished = false,
+      tagIds = [],
+    } = req.body;
     // 服务端校验
     if (!title) {
       res.status(200).json(TITLE_IS_NULL);
@@ -47,6 +53,21 @@ export default async function handler(
     article.is_publish = isPublished;
     article.user = user!;
 
+    const tagRep = await getRepository(Tag);
+    // findByIds 弃用
+    // let tags = await tagRep.findByIds(tagIds); 
+    let tags = await tagRep.find({
+      where: tagIds.map((id: number) => ({ id })),
+    });
+    if (tags) {
+      const newTags = tags.map((t: any) => ({
+        ...t,
+        article_count: t.article_count + 1,
+      }));
+      // 做了cascade:true, 这里不需要再保存
+      // 注意级联的位置
+      article.tags = newTags;
+    }
     const articleRep = await getRepository(Article);
     await articleRep.save(article);
 

@@ -38,6 +38,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, (comment) => comment.user)
   comments!: Relation<Comment[]>;
 
-  @ManyToMany(() => Tag, (tag) => tag.users)
+  @ManyToMany(() => Tag, (tag) => tag.users, {
+    cascade: true,
+  })
   tags!: Relation<Tag[]>;
 }

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
-import { User, UserAuth, Article, Comment, Tag } from "./entity";
+import { User, UserAuth, Article, Comment, Tag, } from "./entity";
 
 export const AppDataSource = new DataSource({
   type: process.env.DATABASE_TYPE as any,
@@ -9,7 +9,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_DATABASE,
-  entities: [User, UserAuth, Article, Comment, Tag],
+  entities: [User, UserAuth, Article, Comment, Tag ],
   synchronize: false, // 初始化后置为false，需要重新初始化设置为true
   logging: false,
 });

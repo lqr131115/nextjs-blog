@@ -26,9 +26,8 @@ export class Tag extends BaseEntity {
   @Column({ default: 0 })
   article_count!: number;
 
-  @ManyToMany(() => User, (user) => user.tags, {
-    cascade: true,
-  })
+  // TypeORMError: Relation Tag#users and User#tags both has cascade remove set. This may lead to unexpected circular removals. Please set cascade remove only from one side of relationship.
+  @ManyToMany(() => User, (user) => user.tags)
   @JoinTable({
     name: "tags_users_rel",
     joinColumn: {
@@ -40,9 +39,7 @@ export class Tag extends BaseEntity {
   })
   users!: Relation<User[]>;
 
-  @ManyToMany(() => Article, (article) => article.tags, {
-    cascade: true,
-  })
+  @ManyToMany(() => Article, (article) => article.tags)
   @JoinTable({
     name: "tags_articles_rel",
     joinColumn: {
