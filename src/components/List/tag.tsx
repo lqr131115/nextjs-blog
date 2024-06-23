@@ -14,8 +14,10 @@ import styles from "./tag.module.scss";
 import request from "@/service/fetch";
 interface IProps {
   tags: ITag[];
+  needRefresh: boolean;
+  refresh: (value:boolean) => void;
 }
-const TagList: NextPage<IProps> = ({ tags }) => {
+const TagList: NextPage<IProps> = ({ tags, refresh ,needRefresh}) => {
   const { user } = useStore();
   const { userInfo } = user;
   const hasFollowedTagsId = tags
@@ -29,10 +31,11 @@ const TagList: NextPage<IProps> = ({ tags }) => {
     }).then((res: any) => {
       const { code,msg } = res;
       if (code === 0) {
-        message.success(hasFollowed ? '取注成功' : '关注成功');
+        message.success(hasFollowed ? '取关成功' : '关注成功');
       }else{
         message.error(msg);
       }
+      refresh && refresh(!needRefresh);
     });
   };
   return (

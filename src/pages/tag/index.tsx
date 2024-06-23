@@ -10,16 +10,17 @@ import styles from "./index.module.scss";
 const Tag: NextPage = () => {
   const [followTags, setFollowTags] = useState<ITag[]>([]);
   const [allTags, setAllTags] = useState<ITag[]>([]);
+  const [needRefresh,setNeedRefresh] = useState<boolean>(false)
   const tabItems: TabsProps["items"] = [
     {
       label: "所有",
       key: "all",
-      children: <TagList tags={allTags} />,
+      children: <TagList tags={allTags} refresh={setNeedRefresh} needRefresh={needRefresh}/>,
     },
     {
       label: "关注",
       key: "follow",
-      children: <TagList tags={followTags} />,
+      children: <TagList tags={followTags} refresh={setNeedRefresh} needRefresh={needRefresh}/>,
     },
   ];
   useEffect(() => {
@@ -31,7 +32,7 @@ const Tag: NextPage = () => {
         setAllTags(allTags);
       }
     });
-  }, []);
+  }, [needRefresh]);
 
   return (
     <div className={styles.wrapper}>

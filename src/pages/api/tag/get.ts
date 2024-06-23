@@ -21,18 +21,14 @@ export default async function handler(
       return;
     }
     const { id: useId } = session.user;
-    // const followTags = await tagRep.find({
-    //   relations: ["users"],
-    // });
-
     const tagRep = await getRepository(Tag);
     const allTags = await tagRep.find({
       relations: ["users"],
     });
-
+    const followTags = allTags.filter((t) => t.users.some((u) => u.id === useId));
     res
       .status(200)
-      .json({ code: 0, msg: "get success", data: { allTags, followTags: [] } });
+      .json({ code: 0, msg: "get success", data: { allTags, followTags } });
   } catch (error) {
     res.status(200).json(CET_TAG_FAILED);
   }
