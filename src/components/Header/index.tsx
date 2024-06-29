@@ -72,7 +72,7 @@ const Header: NextPage = () => {
   return (
     <>
       <header className={styles.wrapper}>
-        <section className={styles.logo}>
+        <section className={styles.logo} onClick={() => push('/')}>
           <span className={styles.box}>BLOG</span>
         </section>
         <section className={styles.navbar}>

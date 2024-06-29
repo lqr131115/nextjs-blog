@@ -6,7 +6,7 @@ import styles from "./index.module.scss";
 
 export async function getServerSideProps() {
   const articleRep = await getRepository(Article);
-  // 也可直接使用store中的UserInfo, 此处使用级联
+  // TODO: 分页
   const articles = await articleRep.find({ relations: ["user"] });
 
   return {

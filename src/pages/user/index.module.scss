@@ -1,5 +1,33 @@
 .wrapper {
-  width: 80%;
-  margin: 10px auto;
-  background-color: #fff;
+  $bg-color: #fff;
+  .container {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    .left {
+      flex: 3;
+      margin-right: 10px;
+      .articles {
+        background-color: $bg-color;
+      }
+    }
+
+    .right {
+      flex: 1;
+      padding: 8px 10px;
+      background-color: $bg-color;
+      .title {
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .articleCount,
+      .viewsCount {
+        margin-bottom: 5px;
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
 }
