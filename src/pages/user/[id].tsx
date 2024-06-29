@@ -40,7 +40,7 @@ const UserDetail: NextPage = (props: any) => {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.left}>
-          <div className={styles.userinfo}>userinfo</div>
+          <div className={styles.userInfo}>userinfo</div>
           <div className={styles.articles}>
             <ArticleList articles={articles} />
           </div>

@@ -7,6 +7,12 @@
     .left {
       flex: 3;
       margin-right: 10px;
+      .userInfo{
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        background-color: $bg-color;
+        
+      }
       .articles {
         background-color: $bg-color;
       }
